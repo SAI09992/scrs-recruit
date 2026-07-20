@@ -297,18 +297,14 @@ export default function ApplyPage() {
                     <label className="block text-xs font-semibold text-brand-navy mb-1">
                       Section
                     </label>
-                    <select
+                    <input
+                      type="text"
                       name="section"
                       value={formData.section}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-medium text-brand-navy outline-none"
-                    >
-                      {SECTIONS.map((sec) => (
-                        <option key={sec} value={sec}>
-                          Section {sec}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="e.g. A, B, CSE-1, AI&DS-2"
+                      className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-medium text-brand-navy outline-none focus:border-brand-blue"
+                    />
                   </div>
 
                   <div>
