@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const ALLOWED_ADMINS = ["saidhanush@scrs.com", "saijaswanth@scrs.com"];
@@ -7,14 +6,6 @@ const ADMIN_PASSWORD = "scrs2026rr";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET
-      ? [
-          GoogleProvider({
-            clientId: process.env.AUTH_GOOGLE_ID,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET,
-          }),
-        ]
-      : []),
     CredentialsProvider({
       id: "credentials",
       name: "Admin Credentials",
@@ -38,15 +29,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           };
         }
 
-        if (email.includes("panel") && password === ADMIN_PASSWORD) {
-          return {
-            id: email,
-            email,
-            name: "Interview Panelist",
-            role: "PANEL",
-          };
-        }
-
         return null;
       },
     }),
@@ -54,13 +36,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role || "ADMIN";
+        token.role = "ADMIN";
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role || "ADMIN";
+        (session.user as any).role = "ADMIN";
       }
       return session;
     },
