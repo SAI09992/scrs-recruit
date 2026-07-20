@@ -174,44 +174,73 @@ function SuccessContent() {
         </div>
       </div>
 
-      {/* QR Code Section for Desktop */}
-      <div className="mt-12 p-6 glass-card rounded-2xl inline-block max-w-sm mx-auto">
-        <div className="flex items-center justify-center gap-4">
-          <div className="p-3 bg-white rounded-xl border border-gray-200 shadow-sm">
-            <QrCode className="w-16 h-16 text-brand-navy" />
+      {/* Official WhatsApp QR Code Card */}
+      <div className="mt-10 p-6 glass-card rounded-3xl inline-block max-w-md mx-auto border border-green-100 bg-gradient-to-b from-green-50/50 to-white shadow-lg">
+        <div className="flex flex-col sm:flex-row items-center gap-6">
+          <div className="p-2 bg-white rounded-2xl border border-gray-200 shadow-md flex-shrink-0">
+            <img
+              src="/whatsapp-qr.png"
+              alt="SCRS WhatsApp Group QR Code"
+              className="w-36 sm:w-44 h-auto rounded-xl object-contain"
+            />
           </div>
-          <div className="text-left">
-            <h5 className="font-space font-bold text-sm text-brand-navy">Scan to Join WhatsApp</h5>
-            <p className="text-xs text-gray-500 mt-1">
-              Scanning from desktop? Point your phone camera to join the official recruitment group directly.
+          <div className="text-left space-y-2">
+            <span className="text-[10px] font-bold text-[#05A870] uppercase tracking-wider px-2.5 py-0.5 bg-green-100 rounded-full">
+              SCAN OR TAP
+            </span>
+            <h5 className="font-space font-bold text-base text-brand-navy">Scan to Join WhatsApp</h5>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Scan with your phone camera or click the green button to join <strong>SCRS HIRING 2026-27</strong> group directly.
             </p>
+            <a
+              href="https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#05A870] hover:underline pt-1"
+            >
+              <MessageCircle className="w-3.5 h-3.5 fill-[#05A870]" />
+              Open Group Link →
+            </a>
           </div>
         </div>
       </div>
 
-      {/* WhatsApp Modal */}
+      {/* WhatsApp Modal with Official QR */}
       {showWhatsAppModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-left">
-            <div className="w-14 h-14 rounded-2xl bg-[#25D366]/10 text-[#25D366] flex items-center justify-center mb-4">
-              <MessageCircle className="w-8 h-8" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-fade-in">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-5 animate-scale-up relative">
+            <div className="w-14 h-14 rounded-2xl bg-[#05A870]/10 text-[#05A870] flex items-center justify-center mx-auto">
+              <MessageCircle className="w-8 h-8 fill-[#05A870]" />
             </div>
-            <h3 className="font-space font-bold text-xl text-brand-navy">Join SCRS Community</h3>
-            <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-              Join the official SCRS WhatsApp Community to receive recruitment announcements, interview schedules, reminders, and important updates directly on your phone.
-            </p>
-            <div className="flex items-center gap-3 mt-6">
+
+            <div>
+              <h3 className="font-space font-bold text-xl text-brand-navy">Join SCRS HIRING 2026-27</h3>
+              <p className="text-xs text-gray-500 mt-1">
+                Scan QR or click below to receive instant recruitment announcements and interview updates.
+              </p>
+            </div>
+
+            {/* Official QR Code Display */}
+            <div className="p-3 bg-gray-50 rounded-2xl border border-gray-200 inline-block">
+              <img
+                src="/whatsapp-qr.png"
+                alt="SCRS HIRING 2026-27 QR Code"
+                className="w-48 h-auto mx-auto rounded-xl object-contain shadow-sm"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={handleJoinWhatsApp}
-                className="flex-1 py-3 px-4 bg-[#25D366] text-white font-semibold rounded-xl hover:bg-[#20bd5a] transition-all text-center text-sm"
+                className="flex-1 py-3.5 px-4 bg-[#05A870] text-white font-bold rounded-xl hover:bg-[#049362] transition-all text-center text-xs shadow-md"
               >
-                Join Community Now
+                Join WhatsApp Group Now
               </button>
               <button
                 onClick={() => setShowWhatsAppModal(false)}
-                className="py-3 px-4 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-all text-sm"
+                className="py-3.5 px-4 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-all text-xs"
               >
-                Maybe Later
+                Close
               </button>
             </div>
           </div>
