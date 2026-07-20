@@ -14,7 +14,7 @@ function SuccessContent() {
   const [copied, setCopied] = useState(false);
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
   const [appDetails, setAppDetails] = useState<any>(null);
-  const [whatsappLink, setWhatsappLink] = useState("https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW");
+  const [whatsappLink, setWhatsappLink] = useState("https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX");
 
   // Trigger confetti on mount
   useEffect(() => {

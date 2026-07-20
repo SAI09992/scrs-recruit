@@ -14,23 +14,23 @@ const NAV_LINKS = [
 
 const DEFAULT_COORDINATORS = [
   {
-    name: "N HARSHITHA SAI",
-    role: "Student Representative",
-    whatsapp: "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW",
-  },
-  {
     name: "SAI DHANUSH",
     role: "Technical Lead",
-    whatsapp: "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW",
+    whatsapp: "https://wa.me/919381276836",
   },
   {
-    name: "SAI JASWANTH",
-    role: "Recruitment Coordinator",
-    whatsapp: "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW",
+    name: "RAHUL",
+    role: "Recruitment Lead",
+    whatsapp: "https://wa.me/919515392839",
+  },
+  {
+    name: "N HARSHITHA SAI",
+    role: "Student Representative",
+    whatsapp: "https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX",
   },
 ];
 
-const MAIN_WHATSAPP_LINK = "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW";
+const MAIN_WHATSAPP_LINK = "https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
