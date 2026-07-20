@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/landing/Navbar";
-import Footer from "@/components/landing/Footer";
 import { DOMAINS, DEPARTMENTS, YEARS, SECTIONS, GENDERS } from "@/lib/utils";
 import {
   User,
@@ -610,8 +609,6 @@ export default function ApplyPage() {
           </form>
         </div>
       </div>
-
-      <Footer />
     </main>
   );
 }
