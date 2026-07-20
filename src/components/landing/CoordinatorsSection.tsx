@@ -14,18 +14,13 @@ const DEFAULT_COORDINATORS = [
     role: "Recruitment Lead",
     whatsapp: "https://wa.me/919515392839",
   },
-  {
-    name: "N HARSHITHA SAI",
-    role: "Student Representative",
-    whatsapp: "https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX",
-  },
 ];
 
 export default function CoordinatorsSection() {
   const [coordinators, setCoordinators] = useState(DEFAULT_COORDINATORS);
 
   useEffect(() => {
-    const saved = localStorage.getItem("scrs_coordinators");
+    const saved = localStorage.getItem("scrs_coordinators_v3");
     if (saved) {
       try {
         setCoordinators(JSON.parse(saved));
@@ -52,7 +47,7 @@ export default function CoordinatorsSection() {
         </div>
 
         {/* Coordinators Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
           {coordinators.map((c) => (
             <div
               key={c.name}

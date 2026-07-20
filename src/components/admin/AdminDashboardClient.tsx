@@ -46,21 +46,15 @@ const COLORS = ["#2563EB", "#7C3AED", "#059669", "#EA580C", "#DB2777"];
 const DEFAULT_COORDINATORS = [
   {
     id: "1",
-    name: "N HARSHITHA SAI",
-    role: "Student Representative",
-    whatsapp: "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW",
+    name: "SAI DHANUSH",
+    role: "Technical Lead",
+    whatsapp: "https://wa.me/919381276836",
   },
   {
     id: "2",
-    name: "SAI DHANUSH",
-    role: "Technical Lead",
-    whatsapp: "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW",
-  },
-  {
-    id: "3",
-    name: "SAI JASWANTH",
-    role: "Recruitment Coordinator",
-    whatsapp: "https://chat.whatsapp.com/GjE2kPLPloK5vU38bSCrsW",
+    name: "RAHUL",
+    role: "Recruitment Lead",
+    whatsapp: "https://wa.me/919515392839",
   },
 ];
 
@@ -95,7 +89,7 @@ export default function AdminDashboardClient() {
       .finally(() => setLoading(false));
 
     // Load saved coordinators from localStorage
-    const saved = localStorage.getItem("scrs_coordinators");
+    const saved = localStorage.getItem("scrs_coordinators_v3");
     if (saved) {
       try {
         setCoordinators(JSON.parse(saved));
@@ -108,7 +102,7 @@ export default function AdminDashboardClient() {
   // Save coordinators to localStorage
   const saveCoordinatorsToStorage = (updated: typeof DEFAULT_COORDINATORS) => {
     setCoordinators(updated);
-    localStorage.setItem("scrs_coordinators", JSON.stringify(updated));
+    localStorage.setItem("scrs_coordinators_v3", JSON.stringify(updated));
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
   };

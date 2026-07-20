@@ -23,11 +23,6 @@ const DEFAULT_COORDINATORS = [
     role: "Recruitment Lead",
     whatsapp: "https://wa.me/919515392839",
   },
-  {
-    name: "N HARSHITHA SAI",
-    role: "Student Representative",
-    whatsapp: "https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX",
-  },
 ];
 
 const MAIN_WHATSAPP_LINK = "https://chat.whatsapp.com/LHyUVSReaYKIaZXayxSguX";
@@ -50,7 +45,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem("scrs_coordinators");
+    const saved = localStorage.getItem("scrs_coordinators_v3");
     if (saved) {
       try {
         setCoordinators(JSON.parse(saved));
