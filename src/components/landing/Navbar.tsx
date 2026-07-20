@@ -158,25 +158,25 @@ export default function Navbar() {
                 className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors"
                 aria-label="Toggle menu"
               >
-                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {mobileOpen ? <X className="w-5 h-5 text-brand-navy" /> : <Menu className="w-5 h-5 text-brand-navy" />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Drawer (Solid Background to prevent text bleeding) */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <div className="glass-panel mx-4 mb-4 rounded-2xl p-4 space-y-2">
+          <div className="bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-2xl mx-4 mb-4 rounded-3xl p-5 space-y-3 relative z-50">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:text-brand-blue hover:bg-brand-blue/5 rounded-xl transition-all"
+                className="block px-4 py-2.5 text-sm font-semibold text-brand-navy hover:text-brand-blue hover:bg-brand-blue/5 rounded-xl transition-all"
               >
                 {link.label}
               </a>
@@ -186,7 +186,7 @@ export default function Navbar() {
               target="_blank"
               rel="noreferrer"
               onClick={() => setMobileOpen(false)}
-              className="w-full text-left px-4 py-2.5 text-sm font-bold text-white bg-[#05A870] rounded-xl flex items-center gap-2 shadow-sm"
+              className="w-full text-left px-4 py-3 text-sm font-bold text-white bg-[#05A870] rounded-xl flex items-center gap-2 shadow-md"
             >
               <MessageCircle className="w-4 h-4 fill-white" />
               Join WhatsApp Community
@@ -196,15 +196,15 @@ export default function Navbar() {
                 setMobileOpen(false);
                 setStatusModalOpen(true);
               }}
-              className="w-full text-left px-4 py-2.5 text-sm font-semibold text-brand-blue hover:bg-brand-blue/5 rounded-xl transition-all flex items-center gap-2"
+              className="w-full text-left px-4 py-2.5 text-sm font-semibold text-brand-blue bg-blue-50/80 hover:bg-blue-100/80 rounded-xl transition-all flex items-center gap-2"
             >
               <Search className="w-4 h-4" />
-              Check Status
+              Check Application Status
             </button>
             <Link
               href="/apply"
               onClick={() => setMobileOpen(false)}
-              className="block mt-2 px-4 py-3 bg-gradient-to-r from-brand-blue to-brand-blue-light text-white text-sm font-semibold rounded-xl text-center"
+              className="block mt-2 px-4 py-3 bg-gradient-to-r from-brand-blue to-brand-blue-light text-white text-sm font-bold rounded-xl text-center shadow-lg shadow-brand-blue/25"
             >
               Apply Now →
             </Link>
@@ -214,7 +214,7 @@ export default function Navbar() {
 
       {/* Application Status Lookup Modal */}
       {statusModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-fade-in">
           <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl space-y-6 text-left relative animate-scale-up">
             <button
               onClick={() => {
@@ -314,22 +314,25 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                {/* Coordinators Contact Section */}
+                {/* Coordinators Contact Section inside Status Modal */}
                 <div className="pt-3 border-t border-blue-100 space-y-2">
                   <span className="text-[10px] font-bold text-brand-navy uppercase tracking-wider block">
-                    Have queries? Reach out to Coordinators:
+                    Have queries? Reach out to Student Leads:
                   </span>
-                  <div className="flex flex-wrap gap-2">
-                    {coordinators.slice(0, 2).map((c) => (
+                  <div className="flex flex-col gap-2">
+                    {coordinators.map((c) => (
                       <a
                         key={c.name}
                         href={c.whatsapp}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-3 py-1.5 bg-[#05A870] hover:bg-[#049362] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all"
+                        className="px-3.5 py-2 bg-[#05A870] hover:bg-[#049362] text-white text-xs font-bold rounded-xl flex items-center justify-between transition-all shadow-sm"
                       >
-                        <MessageCircle className="w-3.5 h-3.5 fill-white" />
-                        {c.name.split(" ")[0]}
+                        <span className="flex items-center gap-2">
+                          <MessageCircle className="w-4 h-4 fill-white" />
+                          <span>{c.name}</span>
+                        </span>
+                        <span className="text-[10px] opacity-90 font-medium">({c.role})</span>
                       </a>
                     ))}
                   </div>
