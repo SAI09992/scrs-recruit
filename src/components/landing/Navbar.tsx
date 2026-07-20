@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Menu, X, ChevronRight, Search, AlertCircle, MessageCircle } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#domains", label: "Domains" },
-  { href: "#timeline", label: "Process" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#home", label: "Home" },
+  { href: "/#about", label: "About" },
+  { href: "/#domains", label: "Domains" },
+  { href: "/#timeline", label: "Process" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 const DEFAULT_COORDINATORS = [
@@ -83,6 +83,17 @@ export default function Navbar() {
       .finally(() => setLoading(false));
   };
 
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    if (href.startsWith("/#")) {
+      const targetId = href.replace("/#", "");
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <>
       {/* Scroll Progress Bar */}
@@ -115,6 +126,7 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
+                  onClick={() => handleNavClick(link.href)}
                   className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-brand-blue rounded-xl hover:bg-brand-blue/5 transition-all duration-300"
                 >
                   {link.label}
@@ -164,7 +176,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Drawer (Solid Background to prevent text bleeding) */}
+        {/* Mobile Menu Drawer (Solid Backdrop + Functional Nav Links) */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
@@ -175,7 +187,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => handleNavClick(link.href)}
                 className="block px-4 py-2.5 text-sm font-semibold text-brand-navy hover:text-brand-blue hover:bg-brand-blue/5 rounded-xl transition-all"
               >
                 {link.label}

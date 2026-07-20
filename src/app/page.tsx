@@ -5,11 +5,10 @@ import DomainsSection from "@/components/landing/DomainsSection";
 import TimelineSection from "@/components/landing/TimelineSection";
 import FAQSection from "@/components/landing/FAQSection";
 import CoordinatorsSection from "@/components/landing/CoordinatorsSection";
-import Footer from "@/components/landing/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white pb-12">
       <Navbar />
       <HeroSection />
       <AboutSection />
@@ -17,7 +16,6 @@ export default function Home() {
       <TimelineSection />
       <FAQSection />
       <CoordinatorsSection />
-      <Footer />
     </main>
   );
 }
