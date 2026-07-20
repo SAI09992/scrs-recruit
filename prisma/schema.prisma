@@ -1,0 +1,166 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  role          String         @default("CANDIDATE") // "ADMIN", "CANDIDATE", "PANEL"
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  // Relations
+  applications  Application[]
+  evaluations   Evaluation[]
+  interviews    Interview[]    @relation("PanelInterviews")
+  announcements Announcement[]
+  auditLogs     AuditLog[]
+}
+
+model Application {
+  id               String       @id // Custom formatted ID, e.g. SCRS-2026-0042
+  userId           String?
+  user             User?        @relation(fields: [userId], references: [id])
+  
+  // Personal Details
+  fullName         String
+  rollNumber       String       @unique
+  department       String
+  year             String       // "1", "2", "3", "4"
+  section          String
+  gender           String
+  dob              String
+  phoneNumber      String
+  email            String       @unique
+  address          String
+  city             String
+  
+  // Profiles
+  linkedin         String?
+  github           String?
+  portfolio        String?
+  resumeUrl        String?
+  photoUrl         String?
+  
+  // Domain selection
+  primaryDomain    String       // "Web Wizards", "ML Minds", etc.
+  secondaryDomain  String?
+  
+  // Skills & Experience (Stringified JSON or text)
+  skills           String       // Comma separated
+  programmingLanguages String
+  frameworks       String
+  designTools      String?
+  
+  // Dynamic domain Q&As (Stringified JSON list of {question: string, answer: string})
+  technicalAnswers String
+  
+  // Long Answers / Experience
+  experience       String?      // Projects, hackathons description
+  achievements     String?
+  leadership       String?
+  hoursPerWeek     Int          @default(10)
+  reasonToJoin     String
+  strengths        String
+  weaknesses       String
+  goals            String
+  
+  // Recruitment Status
+  status           String       @default("RECEIVED") // "RECEIVED", "REVIEWING", "SHORTLISTED", "SCHEDULED", "COMPLETED", "SELECTED", "REJECTED", "WAITLISTED"
+  score            Float        @default(0.0)
+  internalNotes    String?
+  joinedWhatsApp   Boolean      @default(false)
+  
+  // AI Analysis (Stringified JSON)
+  aiSummary        String?      // AI resume summary
+  aiSkillAnalysis  String?      // AI skill & gap analysis
+  aiSuggestions    String?      // AI shortlisting recommendation
+  aiQuestionSuggestions String? // Smart interview questions
+  aiDuplicateFlag  Boolean      @default(false)
+  
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  
+  // Relations
+  interviews       Interview[]
+}
+
+model Interview {
+  id             String       @id @default(uuid())
+  applicationId  String
+  application    Application  @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  date           String       // YYYY-MM-DD
+  timeSlot       String       // e.g. "10:00 AM - 10:30 AM"
+  venue          String       // Google Meet link or Room Number
+  status         String       @default("SCHEDULED") // "SCHEDULED", "COMPLETED", "RESCHEDULED", "CANCELLED"
+  
+  panelId        String
+  panel          User         @relation("PanelInterviews", fields: [panelId], references: [id])
+  
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  
+  // Relations
+  evaluations    Evaluation[]
+}
+
+model Evaluation {
+  id                   String     @id @default(uuid())
+  interviewId          String
+  interview            Interview  @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  
+  evaluatorId          String
+  evaluator            User       @relation(fields: [evaluatorId], references: [id])
+  
+  // Core scoring dimensions (1-10)
+  technicalRating      Int        @default(0)
+  communicationRating  Int        @default(0)
+  problemSolvingRating Int        @default(0)
+  confidenceRating     Int        @default(0)
+  leadershipRating     Int        @default(0)
+  creativityRating     Int        @default(0)
+  teamworkRating       Int        @default(0)
+  
+  overallScore         Float      @default(0.0)
+  recommendation       String     @default("WAITLIST") // "SELECT", "REJECT", "WAITLIST"
+  comments             String
+  
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+}
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model Announcement {
+  id             String   @id @default(uuid())
+  title          String
+  content        String
+  targetAudience String   @default("ALL") // "ALL", "SHORTLISTED", "SELECTED"
+  
+  senderId       String
+  sender         User     @relation(fields: [senderId], references: [id])
+  
+  createdAt      DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  action     String   // e.g. "STATUS_CHANGE", "INTERVIEW_SCHEDULE"
+  details    String   // Stringified details/JSON
+  ipAddress  String?
+  timestamp  DateTime @default(now())
+}
