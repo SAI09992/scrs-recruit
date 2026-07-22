@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Code2, Brain, Cpu, Palette, Sparkles, ArrowRight } from "lucide-react";
+import { Code2, Brain, Cpu, Palette, Sparkles, Share2, Camera, ArrowRight } from "lucide-react";
 import { DOMAINS } from "@/lib/utils";
 
 const ICON_MAP: Record<string, any> = {
@@ -10,6 +10,8 @@ const ICON_MAP: Record<string, any> = {
   Cpu: Cpu,
   Palette: Palette,
   Sparkles: Sparkles,
+  Share2: Share2,
+  Camera: Camera,
 };
 
 export default function DomainsSection() {

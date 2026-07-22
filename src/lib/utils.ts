@@ -31,12 +31,12 @@ export const DOMAINS = [
   {
     id: "innovators-den",
     name: "Innovators Den",
-    tagline: "IoT, Embedded & Hardware Projects",
+    tagline: "Cross-Domain Innovation & Integration",
     description:
-      "Build smart hardware, robotics, microcontrollers (Arduino/Raspberry Pi), and edge computing solutions.",
+      "Integrate different technical and creative domains, combining software, hardware, AI, design, and operations to build multidisciplinary solutions.",
     icon: "Cpu",
     color: "from-emerald-500 to-teal-400",
-    skills: ["Arduino & ESP32", "Raspberry Pi", "Sensors & Circuits", "Embedded C/C++", "Robotics"],
+    skills: ["Cross-Domain Integration", "Multidisciplinary R&D", "System Architecture", "Prototyping", "Interdisciplinary Innovation"],
   },
   {
     id: "pixel-crafters",
@@ -47,6 +47,26 @@ export const DOMAINS = [
     icon: "Palette",
     color: "from-pink-500 to-rose-400",
     skills: ["Figma & UI Design", "Photoshop & Illustrator", "Branding & Typography", "Motion Design", "Wireframing"],
+  },
+  {
+    id: "social-pulse",
+    name: "Social Pulse",
+    tagline: "Social Media, PR & Content Strategy",
+    description:
+      "Manage social media presence, digital marketing campaigns, content creation, public relations, and audience engagement.",
+    icon: "Share2",
+    color: "from-cyan-500 to-blue-500",
+    skills: ["Social Media Marketing", "Content Strategy", "Public Relations", "Digital Campaigns", "Copywriting & Analytics"],
+  },
+  {
+    id: "lens-league",
+    name: "Lens League",
+    tagline: "Photography, Videography & Media Production",
+    description:
+      "Capture events, produce promotional videos, handle event photography, video editing, and visual storytelling for SCRS.",
+    icon: "Camera",
+    color: "from-amber-500 to-red-400",
+    skills: ["Photography", "Videography", "Video Editing (Premiere/DaVinci)", "Lighting & Composition", "Visual Storytelling"],
   },
   {
     id: "event-architects",

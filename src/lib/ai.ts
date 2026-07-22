@@ -47,16 +47,28 @@ export function analyzeCandidateWithAI(data: {
     questions.push("How do CNNs handle spatial feature extraction in Computer Vision tasks?");
   } else if (domain === "Innovators Den") {
     if (data.experience && data.experience.length > 50) matchScore += 15;
-    if (!skillsList.includes("research") && !skillsList.includes("prototype")) gaps.push("Prior research or patent drafting experience not explicitly mentioned");
+    if (!skillsList.includes("integration") && !skillsList.includes("cross") && !skillsList.includes("prototype")) gaps.push("Cross-domain integration or prototyping experience not explicitly mentioned");
 
-    questions.push("Walk us through a technical prototype or innovative solution you built recently.");
-    questions.push("How do you evaluate whether a research idea has practical commercial or societal value?");
+    questions.push("Walk us through an innovative project where you integrated multiple technical or creative domains.");
+    questions.push("How do you approach combining software, hardware, AI, or design elements in a single solution?");
   } else if (domain === "Pixel Crafters") {
     if (skillsList.includes("figma")) matchScore += 15;
     if (!skillsList.includes("user research") && !skillsList.includes("ux")) gaps.push("Focus appears heavier on UI aesthetics than UX research");
 
     questions.push("What is your design workflow when taking a wireframe to a high-fidelity prototype in Figma?");
     questions.push("How do you maintain design system consistency across multiple screens?");
+  } else if (domain === "Social Pulse") {
+    if (skillsList.includes("social") || skillsList.includes("marketing") || skillsList.includes("pr") || skillsList.includes("content")) matchScore += 15;
+    if (!skillsList.includes("copywriting") && !skillsList.includes("strategy")) gaps.push("Digital strategy or content planning experience not detailed");
+
+    questions.push("How would you plan and execute a social media launch campaign for an SCRS event?");
+    questions.push("How do you handle public relations and maintain brand engagement across social platforms?");
+  } else if (domain === "Lens League") {
+    if (skillsList.includes("photo") || skillsList.includes("video") || skillsList.includes("editing")) matchScore += 15;
+    if (!skillsList.includes("premiere") && !skillsList.includes("davinci") && !skillsList.includes("photoshop")) gaps.push("Video editing software (Premiere/DaVinci) or raw photo workflow not highlighted");
+
+    questions.push("What camera equipment and post-production editing tools do you currently use?");
+    questions.push("How do you plan video storyboards and shot lists for covering major technical events?");
   } else {
     // Event Architects
     if (data.leadership && data.leadership.length > 30) matchScore += 15;
