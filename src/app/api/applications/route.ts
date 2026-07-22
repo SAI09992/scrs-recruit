@@ -170,3 +170,33 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { id, status } = body;
+
+    if (!id || !status) {
+      return NextResponse.json(
+        { error: "Application ID and status are required fields." },
+        { status: 400 }
+      );
+    }
+
+    const updatedApp = await prisma.application.update({
+      where: { id },
+      data: { status },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: updatedApp,
+    });
+  } catch (error: any) {
+    console.error("Error updating application status:", error);
+    return NextResponse.json(
+      { error: error.message || "Failed to update application status" },
+      { status: 500 }
+    );
+  }
+}

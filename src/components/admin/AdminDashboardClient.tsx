@@ -207,11 +207,26 @@ export default function AdminDashboardClient() {
   };
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
+    // Optimistic UI update
     setApplications((prev) =>
       prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app))
     );
     if (selectedCandidate && selectedCandidate.id === id) {
       setSelectedCandidate({ ...selectedCandidate, status: newStatus });
+    }
+
+    try {
+      const res = await fetch("/api/applications", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        console.error("Failed to persist status change in database:", data.error);
+      }
+    } catch (err) {
+      console.error("Network error saving status change:", err);
     }
   };
 
