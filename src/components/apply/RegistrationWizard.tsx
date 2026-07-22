@@ -193,7 +193,7 @@ export default function RegistrationWizard() {
                   type="text"
                   value={formData.fullName}
                   onChange={(e) => updateField("fullName", e.target.value)}
-                  placeholder="Sanjay Kumar"
+                  placeholder="Enter full name"
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/10 transition-all text-sm"
                 />
               </div>

@@ -235,7 +235,7 @@ export default function ApplyPage() {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleChange}
-                      placeholder="e.g. N Harshitha Sai"
+                      placeholder="Enter full name"
                       className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs outline-none focus:border-brand-blue"
                       required
                     />
