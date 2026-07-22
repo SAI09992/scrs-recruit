@@ -33,7 +33,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Invalid Email ID or Password. Access denied.");
       } else {
-        router.push("/admin");
+        window.location.href = "/admin";
       }
     } catch (err: any) {
       setError("An unexpected error occurred. Please try again.");

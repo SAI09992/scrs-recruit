@@ -26,7 +26,9 @@ import {
   Plus,
   Trash2,
   MessageCircle,
+  LogOut,
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 import {
   ResponsiveContainer,
   PieChart,
@@ -58,7 +60,7 @@ const DEFAULT_COORDINATORS = [
   },
 ];
 
-export default function AdminDashboardClient() {
+export default function AdminDashboardClient({ user }: { user?: any }) {
   const [activeTab, setActiveTab] = useState<"analytics" | "candidates" | "settings">("analytics");
   const [applications, setApplications] = useState<any[]>([]);
   const [selectedCandidate, setSelectedCandidate] = useState<any | null>(null);
@@ -273,6 +275,15 @@ export default function AdminDashboardClient() {
               </button>
             );
           })}
+
+          <button
+            onClick={() => signOut({ callbackUrl: "/scrsadmin" })}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs transition-all whitespace-nowrap flex-shrink-0 bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 hover:text-red-700 ml-1"
+            title="Sign Out of Admin Portal"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </button>
         </div>
       </div>
 
