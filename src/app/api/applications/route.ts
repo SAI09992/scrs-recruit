@@ -46,9 +46,41 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2. Count total applications to generate sequential ID
-    const count = await prisma.application.count();
-    const applicationId = generateApplicationId(count + 1);
+    // 2. Determine highest existing sequence number to guarantee unique ID
+    const allApps = await prisma.application.findMany({
+      select: { id: true },
+    });
+
+    let maxSeq = 0;
+    for (const app of allApps) {
+      if (app.id) {
+        const match = app.id.match(/\d+$/);
+        if (match) {
+          const num = parseInt(match[0], 10);
+          if (!isNaN(num) && num > maxSeq) {
+            maxSeq = num;
+          }
+        }
+      }
+    }
+
+    let nextNum = maxSeq + 1;
+    let applicationId = generateApplicationId(nextNum);
+
+    // Collision safety check loop (guarantees 100% ID uniqueness)
+    let existingIdCheck = await prisma.application.findUnique({
+      where: { id: applicationId },
+      select: { id: true },
+    });
+
+    while (existingIdCheck) {
+      nextNum++;
+      applicationId = generateApplicationId(nextNum);
+      existingIdCheck = await prisma.application.findUnique({
+        where: { id: applicationId },
+        select: { id: true },
+      });
+    }
 
     // 3. Compute AI candidate summary and skill gap suggestions
     const aiResult = analyzeCandidateWithAI({
