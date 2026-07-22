@@ -200,3 +200,58 @@ export async function PATCH(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    let id: string | null = null;
+    const { searchParams } = new URL(req.url);
+    id = searchParams.get("id");
+
+    if (!id) {
+      try {
+        const body = await req.json();
+        id = body?.id;
+      } catch (_) {
+        // no body provided
+      }
+    }
+
+    if (!id || !id.trim()) {
+      return NextResponse.json(
+        { error: "Application ID is required for deletion." },
+        { status: 400 }
+      );
+    }
+
+    const targetId = id.trim();
+
+    // Check if application exists
+    const existing = await prisma.application.findUnique({
+      where: { id: targetId },
+    });
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: `Application ${targetId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    // Delete application
+    await prisma.application.delete({
+      where: { id: targetId },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: `Application ${targetId} deleted successfully.`,
+    });
+  } catch (error: any) {
+    console.error("Error deleting application:", error);
+    return NextResponse.json(
+      { error: error.message || "Failed to delete application" },
+      { status: 500 }
+    );
+  }
+}
+

@@ -27,6 +27,7 @@ import {
   Trash2,
   MessageCircle,
   LogOut,
+  AlertTriangle,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import {
@@ -64,6 +65,8 @@ export default function AdminDashboardClient({ user }: { user?: any }) {
   const [activeTab, setActiveTab] = useState<"analytics" | "candidates" | "settings">("analytics");
   const [applications, setApplications] = useState<any[]>([]);
   const [selectedCandidate, setSelectedCandidate] = useState<any | null>(null);
+  const [candidateToDelete, setCandidateToDelete] = useState<any | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [domainFilter, setDomainFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -229,6 +232,34 @@ export default function AdminDashboardClient({ user }: { user?: any }) {
       }
     } catch (err) {
       console.error("Network error saving status change:", err);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!candidateToDelete) return;
+    const targetId = candidateToDelete.id;
+    setIsDeleting(true);
+
+    try {
+      const res = await fetch(`/api/applications?id=${encodeURIComponent(targetId)}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setApplications((prev) => prev.filter((app) => app.id !== targetId));
+        if (selectedCandidate?.id === targetId) {
+          setSelectedCandidate(null);
+        }
+        setCandidateToDelete(null);
+      } else {
+        alert(data.error || "Failed to delete application from database.");
+      }
+    } catch (err: any) {
+      console.error("Error deleting application:", err);
+      alert("Network error. Unable to delete application.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -509,13 +540,22 @@ export default function AdminDashboardClient({ user }: { user?: any }) {
                           </span>
                         </td>
                         <td className="py-4 px-6 text-right">
-                          <button
-                            onClick={() => setSelectedCandidate(app)}
-                            className="px-3.5 py-1.5 bg-brand-blue text-white font-semibold rounded-lg hover:bg-brand-blue-light transition-all inline-flex items-center gap-1.5 shadow-sm"
-                          >
-                            <FileText className="w-3.5 h-3.5" />
-                            View Full Application
-                          </button>
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              onClick={() => setSelectedCandidate(app)}
+                              className="px-3 py-1.5 bg-brand-blue text-white font-semibold rounded-lg hover:bg-brand-blue-light transition-all inline-flex items-center gap-1.5 shadow-sm text-xs"
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                              View
+                            </button>
+                            <button
+                              onClick={() => setCandidateToDelete(app)}
+                              className="p-1.5 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all"
+                              title="Delete Application"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -868,7 +908,7 @@ export default function AdminDashboardClient({ user }: { user?: any }) {
                 <span className="text-xs font-semibold text-brand-blue uppercase">{selectedCandidate.status}</span>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {["SHORTLISTED", "SELECTED", "REJECTED"].map((st) => (
                   <button
                     key={st}
@@ -882,7 +922,78 @@ export default function AdminDashboardClient({ user }: { user?: any }) {
                     Set {st}
                   </button>
                 ))}
+                <button
+                  onClick={() => setCandidateToDelete(selectedCandidate)}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 hover:text-red-700 inline-flex items-center gap-1.5 ml-1"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Delete Application
+                </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {candidateToDelete && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-red-100 shadow-2xl space-y-6">
+            <div className="flex items-center gap-3 text-red-600">
+              <div className="p-3 bg-red-100 rounded-2xl">
+                <AlertTriangle className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="font-space font-bold text-lg text-brand-navy">
+                  Confirm Delete
+                </h3>
+                <p className="text-xs text-red-500 font-semibold">
+                  Permanent Database Deletion
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-red-50/50 rounded-2xl border border-red-100 space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Application ID:</span>
+                <span className="font-bold text-brand-navy font-mono">{candidateToDelete.id}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Candidate Name:</span>
+                <span className="font-bold text-brand-navy">{candidateToDelete.fullName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Roll Number:</span>
+                <span className="font-mono text-gray-700">{candidateToDelete.rollNumber}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Domain:</span>
+                <span className="font-semibold text-brand-blue">{candidateToDelete.primaryDomain}</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-gray-600 leading-relaxed">
+              Are you sure you want to permanently delete this application? This record will be erased from the database and cannot be recovered.
+            </p>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setCandidateToDelete(null)}
+                className="flex-1 py-3 bg-gray-100 text-gray-700 font-semibold text-xs rounded-xl hover:bg-gray-200 transition-all disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleConfirmDelete}
+                className="flex-1 py-3 bg-red-600 text-white font-semibold text-xs rounded-xl hover:bg-red-700 shadow-lg shadow-red-600/25 transition-all inline-flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <Trash2 className="w-4 h-4" />
+                {isDeleting ? "Deleting..." : "Permanently Delete"}
+              </button>
             </div>
           </div>
         </div>
